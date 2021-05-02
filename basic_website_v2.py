@@ -4,7 +4,7 @@ Creates and hosts a basic website to demonstrate capabilities of flask and Pytho
 Content is basic information about Video Game console generations.
 
 Will Feighner
-2021 04 25
+2021 05 01
 """
 import datetime
 
@@ -40,6 +40,18 @@ def show_8th_gen():
 def show_about():
     """Create and render about info page"""
     return render_template('about.html')
+
+
+@app.route('/register/')
+def show_register():
+    """Create and render register page"""
+    return render_template('register.html')
+
+
+@app.route('/login/')
+def show_login():
+    """Create and render login page"""
+    return render_template('login.html')
 
 
 if __name__ == '__main__':
