@@ -27,6 +27,10 @@ header h1 {
     float: left;
 }
 
+img {
+    max-width: 30%;
+    height: auto;
+}
 
 h1 {
     font-size: 2em;
