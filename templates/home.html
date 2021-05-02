@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<!-- This page lists basic information about the most current generation of video game consoles -->
+<html lang="en">
+<head>
+    <title>Video Game Console Generations</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+<header>
+    <h1>
+        Welcome to the Video Game Console Information Site
+    </h1>
+</header>
+<h1>
+    9th (Current) Generation Consoles
+</h1>
+
+<ul>
+    <li><a href="https://www.playstation.com/en-us/ps5/">
+        <h2>Sony Playstation 5</h2></a>
+        <ul>
+            <li>2020 - present</li>
+            <li>$ 500 (disc)</li>
+            <li>$ 400 (digital)</li>
+        </ul>
+    </li>
+    <li><a href="https://www.xbox.com/en-US/consoles/xbox-series-x"><h2>Microsoft Xbox Series
+        X/S</h2></a>
+        <ul>
+            <li>2020 - present</li>
+            <li>$ 500 (Series X)</li>
+            <li>$ 300 (Series S)</li>
+        </ul>
+    </li>
+    <li><a href="{{ url_for('show_8th_gen') }}"><h3>8th Generation</h3></a></li>
+    <li><a href="{{ url_for('show_previous') }}"><h3>Previous Generations</h3></a></li>
+    <li><a href="{{ url_for('show_about') }}"><h3>About</h3></a></li>
+</ul>
+Current Date and Time: {{ datetime }}
+</body>
+</html>

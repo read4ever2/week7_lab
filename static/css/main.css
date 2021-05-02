@@ -1,0 +1,69 @@
+/*
+Style sheet for video game console information site.
+*/
+
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Helvetica", Helvetica, Arial, sans-serif;
+    color: #444;
+    background-color: cornsilk;
+}
+
+header {
+    background-color: #DFB887;
+    height: 40px;
+    width: 100%;
+    opacity: .9;
+    margin-bottom: 10px;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2em;
+    color: #ffffff;
+    text-transform: uppercase;
+    float: left;
+}
+
+
+h1 {
+    font-size: 2em;
+    text-align: center;
+    color: darkgreen;
+}
+
+h2 {
+    font-size: 1.7em;
+    margin-top: 40px;
+    text-align: left;
+    letter-spacing: -2px;
+}
+
+h3 {
+    font-size: 1.3em;
+    font-weight: 100;
+    margin-top: 30px;
+    text-align: left;
+    letter-spacing: -1px;
+    color: firebrick;
+}
+
+p {
+    color: #111111;
+}
+
+
+ol {
+    list-style-type: upper-roman;
+}
+
+ul ul {
+    list-style-type: square;
+}
+
+ul {
+    list-style-type: circle;
+}
+
