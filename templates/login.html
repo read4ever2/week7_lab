@@ -6,6 +6,24 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 </head>
 <body>
+<header><h1>Please Log In</h1></header>
+
+<form method="get">
+    <div>
+        <label>Username
+            <input type="text" name="username">
+        </label>
+    </div>
+    <div>
+        <label>Password
+            <input type="password" name="password">
+        </label>
+    </div>
+    <div>
+        <input type="submit" class="submit" value="Log In">
+    </div>
+</form>
+
 <p>Page Creator: Will Feighner</p>
 <p>Last Updated: 2021-05-01</p>
 <p><a href="{{ url_for('show_home') }}">Return Home</a></p>
