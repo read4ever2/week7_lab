@@ -52,26 +52,30 @@ def show_register():
     return render_template('register.html')
 
 
-@app.route('/handle_login/', methods=['POST'])
+@app.route('/handle_login/', methods=['GET','POST'])
 def handle_login():
     """Process login by finding username and comparing password hashes"""
-    username = request.form.get('username')
-    user_pass = request.form.get('password')
-    print(request.form.get('password'))
-    print(user_pass)
-    hash_pass =''
-    if is_registered(username):
-        with open(os.path.join(sys.path[0] + "\\" + "static\\pass_file.txt"), "r") as pass_file:
-            lines = pass_file.readlines()
-            for line in lines:
-                if username in line:
-                    hash_pass = line.split(', ')[1]
-                    break
+    error = None
+    if request.method == 'POST'
+        username = request.form.get('username')
+        user_pass = request.form.get('password')
+        print(request.form.get('password'))
+        print(user_pass)
+        hash_pass =''
+        if is_registered(username):
+            with open(os.path.join(sys.path[0] + "\\" + "static\\pass_file.txt"), "r") as pass_file:
+                lines = pass_file.readlines()
+                for line in lines:
+                    if username in line:
+                        hash_pass = line.split(', ')[1]
+                        break
 
     print(hash_pass)
     if sha256_crypt.verify(user_pass, hash_pass):
-        return render_template('login_complete.html')
-    return render_template('login_failed.html')
+        flash('Login Succesful')
+        return redirect(url_for('show_home'))
+    error = 'Invalid Credentials'
+    return render_template('login.html', error=error)
 
 
 @app.route('/login/')
@@ -80,7 +84,7 @@ def show_login():
     return render_template('login.html')
 
 
-@app.route('/handle_data/', methods=['POST'])
+@app.route('/handle_data/', methods=['GET','POST'])
 def handle_data():
     """Processes registration data"""
     email = request.form.get('email')
@@ -88,7 +92,7 @@ def handle_data():
     username = request.form.get('username')
     password = request.form.get('password')
 
-    error = 'no error'
+    error = None
 
     if not username:
         error = 'Please enter your Username.'
@@ -99,15 +103,14 @@ def handle_data():
     elif not complexity(password):
         error = 'Make your password more complex'
 
-        # if error != 'test':
-        #   flash(error)
-        # else:
-        #    break
-    print(error)
-    print(username, password, real_name, email)
-    register(username, password, real_name, email)
+    if error == None:
+        print(username, password, real_name, email)
+        register(username, password, real_name, email)
+        flash('You succesfully registered')
+        return redirect(url_for('show_home'))
 
-    return render_template('reg_complete.html')
+    print(error)
+    return render_template('register.html', error=error)
 
 
 def check_pass():
