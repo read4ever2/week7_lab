@@ -7,9 +7,11 @@ Will Feighner
 2021 05 01
 """
 import datetime
+import os
 import string
+import sys
 
-from flask import Flask, render_template, flash, request
+from flask import Flask, render_template, request
 from passlib.hash import sha256_crypt
 
 app = Flask(__name__)
@@ -50,6 +52,14 @@ def show_register():
     return render_template('register.html')
 
 
+@app.route('/handle_login/', methods=['POST'])
+def handle_login():
+    username = request.form.get('username')
+    user_pass = sha256_crypt.hash(request.form.get('password'))
+    if is_registered(username):
+
+
+
 @app.route('/login/')
 def show_login():
     """Create and render login page"""
@@ -58,31 +68,29 @@ def show_login():
 
 @app.route('/handle_data/', methods=['POST'])
 def handle_data():
-
     email = request.form.get('email')
     real_name = request.form.get('real_name')
     username = request.form.get('username')
     password = request.form.get('password')
 
-    # error = ''
-    #
-    # while True:
-    #     if not username:
-    #         error = 'Please enter your Username.'
-    #     elif not password:
-    #         error = 'Please enter your Password.'
-    #     elif not is_registered(username):
-    #         error = 'You are already registered'
-    #     elif not complexity(password):
-    #         error = 'Make your password more complex'
-    #
-    #     if error != '':
-    #         flash(error)
-    #     else:
-    #         break
-    #
+    error = 'no error'
+
+    if not username:
+        error = 'Please enter your Username.'
+    elif not password:
+        error = 'Please enter your Password.'
+    elif is_registered(username):
+        error = 'You are already registered'
+    elif not complexity(password):
+        error = 'Make your password more complex'
+
+        # if error != 'test':
+        #   flash(error)
+        # else:
+        #    break
+    print(error)
     print(username, password, real_name, email)
-    # register(username, password, real_name, email)
+    register(username, password, real_name, email)
 
     return render_template('reg_complete.html')
 
@@ -101,8 +109,9 @@ def check_pass():
 
 def is_registered(username):
     """Checks if user is already registered"""
-    with open('../static/pass_file.txt', "r") as pass_file:
-        if username in pass_file:
+    print(os.path.join(sys.path[0] + "\\" + "static\\pass_file.txt"))
+    with open(os.path.join(sys.path[0] + "\\" + "static\\pass_file.txt"), "r") as pass_file:
+        if username in pass_file.read():
             return True
         return False
 
@@ -138,9 +147,9 @@ def complexity(password):
 def register(username, password, real_name, email_address):
     """Registers user"""
 
-    with open('../static/pass_file.txt', "a") as pass_file:
-        pass_file.writelines(username + " " + sha256_crypt.hash(password) + " " + real_name + " " +
-                             email_address)
+    with open(os.path.join(sys.path[0] + "\\" + "static\\pass_file.txt"), "a") as pass_file:
+        pass_file.writelines("\n" + username + ", " + sha256_crypt.hash(password) + ", " +
+                             real_name + ", " + email_address)
 
 
 if __name__ == '__main__':
