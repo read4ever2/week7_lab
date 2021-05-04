@@ -57,7 +57,16 @@ def handle_login():
     username = request.form.get('username')
     user_pass = sha256_crypt.hash(request.form.get('password'))
     if is_registered(username):
+        with open(os.path.join(sys.path[0] + "\\" + "static\\pass_file.txt"), "r") as pass_file:
+            lines = pass_file.readlines()
+            for line in lines:
+                if username in line:
+                    hash_pass = line.split(', ')[1]
+                    break
 
+    if sha256_crypt.verify(user_pass, hash_pass):
+        return render_template('login_complete.html')
+    return render_template('login_failed.html')
 
 
 @app.route('/login/')
