@@ -9,7 +9,7 @@ Will Feighner
 import datetime
 import string
 
-from flask import Flask, render_template, flash
+from flask import Flask, render_template, flash, request
 from passlib.hash import sha256_crypt
 
 app = Flask(__name__)
@@ -54,6 +54,37 @@ def show_register():
 def show_login():
     """Create and render login page"""
     return render_template('login.html')
+
+
+@app.route('/handle_data/', methods=['POST'])
+def handle_data():
+
+    email = request.form.get('email')
+    real_name = request.form.get('real_name')
+    username = request.form.get('username')
+    password = request.form.get('password')
+
+    # error = ''
+    #
+    # while True:
+    #     if not username:
+    #         error = 'Please enter your Username.'
+    #     elif not password:
+    #         error = 'Please enter your Password.'
+    #     elif not is_registered(username):
+    #         error = 'You are already registered'
+    #     elif not complexity(password):
+    #         error = 'Make your password more complex'
+    #
+    #     if error != '':
+    #         flash(error)
+    #     else:
+    #         break
+    #
+    print(username, password, real_name, email)
+    # register(username, password, real_name, email)
+
+    return render_template('reg_complete.html')
 
 
 def check_pass():
@@ -106,19 +137,6 @@ def complexity(password):
 
 def register(username, password, real_name, email_address):
     """Registers user"""
-    error = ''
-
-    if not username:
-        error = 'Please enter your Username.'
-    elif not password:
-        error = 'Please enter your Password.'
-    elif not is_registered(username):
-        error = 'You are already registered'
-    elif not complexity(password):
-        error = 'Make your password more complex'
-
-    if error == '':
-        flash(error)
 
     with open('../static/pass_file.txt', "a") as pass_file:
         pass_file.writelines(username + " " + sha256_crypt.hash(password) + " " + real_name + " " +
