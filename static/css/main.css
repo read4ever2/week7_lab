@@ -27,10 +27,20 @@ header h1 {
     float: left;
 }
 
-img {
-    max-width: 30%;
-    height: auto;
+table {
+    border: 1px solid black;
 }
+
+th, td {
+    border: 1px solid black;
+    padding: 15px;
+}
+
+table.products td.num {
+    text-align: right;
+}
+
+
 
 h1 {
     font-size: 2em;
@@ -70,4 +80,3 @@ ul ul {
 ul {
     list-style-type: circle;
 }
-
