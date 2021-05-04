@@ -54,8 +54,12 @@ def show_register():
 
 @app.route('/handle_login/', methods=['POST'])
 def handle_login():
+    """Process login by finding username and comparing password hashes"""
     username = request.form.get('username')
-    user_pass = sha256_crypt.hash(request.form.get('password'))
+    user_pass = request.form.get('password')
+    print(request.form.get('password'))
+    print(user_pass)
+    hash_pass =''
     if is_registered(username):
         with open(os.path.join(sys.path[0] + "\\" + "static\\pass_file.txt"), "r") as pass_file:
             lines = pass_file.readlines()
@@ -64,6 +68,7 @@ def handle_login():
                     hash_pass = line.split(', ')[1]
                     break
 
+    print(hash_pass)
     if sha256_crypt.verify(user_pass, hash_pass):
         return render_template('login_complete.html')
     return render_template('login_failed.html')
@@ -77,6 +82,7 @@ def show_login():
 
 @app.route('/handle_data/', methods=['POST'])
 def handle_data():
+    """Processes registration data"""
     email = request.form.get('email')
     real_name = request.form.get('real_name')
     username = request.form.get('username')

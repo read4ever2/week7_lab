@@ -1,2 +1,3 @@
 bob $5$rounds=535000$rywBxWkhtXWVi6q3$pNScr2poadHi4uBzYVfAl.BdkKlwO8VED9AmkIlGnU9 a a@a.com
 chuck, $5$rounds=535000$vFGkvzsHkEHxQO3R$ic673nOwIqYempDejRvhL6adW7JvR/5FkzhVB3kIsRC, a, a@a.com
+doug, $5$rounds=535000$G6Cq2p3tzL1gOtBu$tglFbCnjbEBY0AIFXskjkJUvR52NvhH03QLJYXA.sO9, 1, a@w.com
