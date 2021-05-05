@@ -11,10 +11,11 @@ import os
 import string
 import sys
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, flash, redirect, url_for
 from passlib.hash import sha256_crypt
 
 app = Flask(__name__)
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 
 def get_date_time():
@@ -52,16 +53,16 @@ def show_register():
     return render_template('register.html')
 
 
-@app.route('/handle_login/', methods=['GET','POST'])
+@app.route('/handle_login/', methods=['GET', 'POST'])
 def handle_login():
     """Process login by finding username and comparing password hashes"""
     error = None
-    if request.method == 'POST'
+    if request.method == 'POST':
         username = request.form.get('username')
         user_pass = request.form.get('password')
         print(request.form.get('password'))
         print(user_pass)
-        hash_pass =''
+        hash_pass = ''
         if is_registered(username):
             with open(os.path.join(sys.path[0] + "\\" + "static\\pass_file.txt"), "r") as pass_file:
                 lines = pass_file.readlines()
@@ -70,11 +71,10 @@ def handle_login():
                         hash_pass = line.split(', ')[1]
                         break
 
-    print(hash_pass)
-    if sha256_crypt.verify(user_pass, hash_pass):
-        flash('Login Succesful')
-        return redirect(url_for('show_home'))
-    error = 'Invalid Credentials'
+        if sha256_crypt.verify(user_pass, hash_pass):
+            flash('Login Successful')
+            return redirect(url_for('show_home'))
+        error = 'Invalid Credentials'
     return render_template('login.html', error=error)
 
 
@@ -84,7 +84,7 @@ def show_login():
     return render_template('login.html')
 
 
-@app.route('/handle_data/', methods=['GET','POST'])
+@app.route('/handle_data/', methods=['GET', 'POST'])
 def handle_data():
     """Processes registration data"""
     email = request.form.get('email')
@@ -101,12 +101,14 @@ def handle_data():
     elif is_registered(username):
         error = 'You are already registered'
     elif not complexity(password):
-        error = 'Make your password more complex'
+        error = 'Make your password more complex.It must be at least 12 characters in length,   ' \
+                'and include at least 1 uppercase character, 1 lowercase character, 1 number and ' \
+                '1 special character.'
 
-    if error == None:
+    if error is None:
         print(username, password, real_name, email)
         register(username, password, real_name, email)
-        flash('You succesfully registered')
+        flash('You successfully registered')
         return redirect(url_for('show_home'))
 
     print(error)
@@ -128,6 +130,7 @@ def check_pass():
 def is_registered(username):
     """Checks if user is already registered"""
     print(os.path.join(sys.path[0] + "\\" + "static\\pass_file.txt"))
+    username += ', '
     with open(os.path.join(sys.path[0] + "\\" + "static\\pass_file.txt"), "r") as pass_file:
         if username in pass_file.read():
             return True
