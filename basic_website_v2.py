@@ -60,8 +60,6 @@ def handle_login():
     if request.method == 'POST':
         username = request.form.get('username')
         user_pass = request.form.get('password')
-        print(request.form.get('password'))
-        print(user_pass)
         hash_pass = ''
         if is_registered(username):
             with open(os.path.join(sys.path[0] + "\\" + "static\\pass_file.txt"), "r") as pass_file:
@@ -106,25 +104,11 @@ def handle_data():
                 '1 special character.'
 
     if error is None:
-        print(username, password, real_name, email)
         register(username, password, real_name, email)
         flash('You successfully registered')
         return redirect(url_for('show_home'))
 
-    print(error)
     return render_template('register.html', error=error)
-
-
-def check_pass():
-    """Checks hashed login password against user file hashed password"""
-    # Input a test password
-    test_pass = "sdev300Key!2 "
-    # Hash the password
-    hash_pass = sha256_crypt.hash(test_pass)
-    # View the encrypted password
-    print(hash_pass)
-    # Call verify to compare the two entries
-    print(sha256_crypt.verify(test_pass, hash_pass))
 
 
 def is_registered(username):
